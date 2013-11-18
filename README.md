@@ -1,7 +1,7 @@
 Analytics.js
 ============
 
-Google analytics event tracking module
+Google analytics event tracking module with support for both classic and universal analytics code.
 
 ### Basic setup
 
@@ -59,6 +59,16 @@ E.g. Custom track a group of elements with custom category and action
   </ul>
 </div>
 ```
+
+### Tracking dynamically
+
+You can track within a JavaScript file by calling the track method:
+
+```javascript
+GA.track(label, category, action); // Specify a label category and action
+GA.track(label); // Specify only a label - will use default category and action
+```
+
 
 
 
