@@ -1,0 +1,25 @@
+{
+  "name": "Analytics.js",
+  "main": "analytics.js",
+  "version": "0.1.0",
+  "authors": [
+    "Richard Blake",
+    "Springload"
+  ],
+  "description": "Event tracking module for Google Analytics",
+  "keywords": [
+    "Analytics",
+    "Tracking",
+    "Events",
+    "Google",
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/springload/Analytics.js.git",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
