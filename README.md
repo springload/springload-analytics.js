@@ -49,5 +49,16 @@ E.g. User custom category and custom value only
 <a data-analytics='UI Elements||Show data' href='#'>Show</a>
 ```
 
+E.g. Custom track a group of elements with custom category and action
+```html
+<div data-analytics='Top navigation|Link click'>
+  <ul>
+    <li><a href='/'>Home</a></li>
+    <li><a href='/about-us/'>About us</a></li>
+    <li><a href='/contact-us/'>Contact us</a></li>
+  </ul>
+</div>
+```
+
 
 
