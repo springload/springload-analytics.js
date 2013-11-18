@@ -3,6 +3,9 @@ Analytics.js
 
 Google analytics event tracking module with support for both classic and universal analytics code.
 
+### Install
+bower install springload-analytics.js
+
 ### Basic setup
 
 Just add a data-analytics attribute to a container containing links you want to track. Every link in that container will be tracked using the default category (uri), default action (click), and default label (href).
