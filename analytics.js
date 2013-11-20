@@ -30,6 +30,9 @@ var GA = (function () {
 
         // The default action
         default_action: "Click",
+        
+        // The default attribute that will be used for the trackable elements
+        default_data_attribute: 'data-analytics',
 
         // The default separator to use within the analytics attribute
         separator: "|",
@@ -90,7 +93,7 @@ var GA = (function () {
             $.extend(true, this, options);
 
             // Get all the trackable elements
-            var $elems = $("[data-analytics] a, a[data-analytics]");
+            var $elems = $("["+self.default_data_attribute+"] a, a["+self.default_data_attribute+"]");
 
             $elems.each(function() {
 
