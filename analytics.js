@@ -105,7 +105,7 @@ var GA = (function () {
 
                 // Check for a category on a parent element
                 if (params === undefined) {
-                    params = $elem.parents("[data-analytics]").data("analytics");
+                    params = $elem.parents("["+self.default_data_attribute+"]").data("analytics");
                 }
 
                 // Grab the values from the data attribute
