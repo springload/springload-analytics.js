@@ -16,7 +16,7 @@
  *  <data data-analytics='|[Custom action]'>
  *
  * - Use in the same way on individual a tags if you want more detailed tracking e.g.
- * <a data-analytics='||The Big Bang Event - Title link'> - Will track as [Default category], [Default action], [Custom label]
+ * <a data-analytics='||Custom Label'> - Will track as [Default category], [Default action], [Custom label]
  *
  */
 var GA = (function () {

@@ -4,7 +4,8 @@
   "version": "0.1.1",
   "authors": [
     "Richard Blake",
-    "Springload"
+    "Springload",
+    "Daniel Mendez"
   ],
   "description": "Event tracking module for Google Analytics",
   "keywords": [
@@ -14,7 +15,7 @@
     "Google"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/springload/Analytics.js.git",
+  "homepage": "https://github.com/lodalo/Analytics.js.git",
   "ignore": [
     "**/.*",
     "node_modules",
