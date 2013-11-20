@@ -73,8 +73,9 @@ E.g. Custom track a group of elements with custom category and action
 You can track within a JavaScript file by calling the track method:
 
 ```javascript
-GA.track(label, category, action); // Specify a label category and action
-GA.track(label); // Specify only a label - will use default category and action
+GA.track(label, category, action); // Specify a label, category and action.
+GA.track(label); // Specify only a label - will use default category and action.
+GA.track(label, category, action, value); // Specify a label, category, action and value.
 ```
 
 
