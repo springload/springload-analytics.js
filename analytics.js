@@ -73,9 +73,10 @@ var GA = (function () {
          * @param label
          * @param category
          * @param action
+         * @param value
          */
-        link: function (label, category, action) {
-            this.event(category, action, label);
+        link: function (label, category, action, value) {
+            this.event(category, action, label, value);
         },
 
         /**
@@ -131,9 +132,10 @@ var GA = (function () {
          * @param label
          * @param category
          * @param action
+         * @param value
          */
-        track: function (label, category, action) {
-            GA.event(category, action, label);
+        track: function (label, category, action, value) {
+            GA.event(category, action, label, value);
         },
 
         /**
