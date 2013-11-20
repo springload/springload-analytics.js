@@ -31,8 +31,10 @@ var GA = (function () {
         // The default action
         default_action: "Click",
         
-        // The default attribute that will be used for the trackable elements
-        default_data_attribute: 'data-analytics',
+        // The default attribute, event and element that will be used for the trackable events
+        default_trackable_attribute: 'analytics',
+        default_trackable_event: 'click',
+        default_trackable_element: 'a',
 
         // The default separator to use within the analytics attribute
         separator: "|",
@@ -87,25 +89,34 @@ var GA = (function () {
          * @param options
          */
         init: function(options) {
-
             var self = this;
-
             $.extend(true, this, options);
+            
+            setupTrackables();
+        },
 
+        setupTrackables: function(trackable_attribute, trackable_event, trackable_element){
+            var self = this;
+            
+            //setup default if needed
+            trackable_attribute = trackable_attribute || self.default_trackable_attribute;
+            trackable_event = trackable_event || self.default_trackable_event;
+            trackable_element = trackable_element || self.default_trackable_element;
+            
             // Get all the trackable elements
-            var $elems = $("["+self.default_data_attribute+"] a, a["+self.default_data_attribute+"]");
+            var $elems = $("[data-"+trackable_attribute+"] "+trackable_element+", "+trackable_element+"[data-"+trackable_attribute+"]");
 
             $elems.each(function() {
 
                 var $elem = $(this),
-                    params  = $elem.data("analytics"),
+                    params  = $elem.data(trackable_attribute),
                     category = undefined,
                     action = undefined,
                     label = $elem.attr("href");
 
                 // Check for a category on a parent element
                 if (params === undefined) {
-                    params = $elem.parents("["+self.default_data_attribute+"]").data("analytics");
+                    params = $elem.parents("[data-"+trackable_attribute+"]").data(trackable_attribute);
                 }
 
                 // Grab the values from the data attribute
@@ -115,7 +126,7 @@ var GA = (function () {
                 label = params[2] !== undefined && params[2] !== '' ? params[2] : label;
 
                 // Register the event handler
-                $elem.on("click", function() {
+                $elem.on(trackable_event, function() {
 
                     // Fire off the event
                     self.event(category, action, label);
@@ -147,6 +158,11 @@ var GA = (function () {
          */
         init: function(options) {
             GA.init(options);
+        },
+        
+        //setup flexible trackables
+        setupTrackables: function(trackable_attribute, trackable_event, trackable_element){
+        	GA.setupTrackables(trackable_attribute, trackable_event, trackable_element);
         },
 
         // Categories
