@@ -92,7 +92,7 @@ var GA = (function () {
             var self = this;
             $.extend(true, this, options);
             
-            setupTrackables();
+            self.setupTrackables();
         },
 
         setupTrackables: function(trackable_attribute, trackable_event, trackable_element){
