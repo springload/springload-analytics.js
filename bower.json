@@ -3,8 +3,7 @@
   "main": "analytics.js",
   "version": "0.1.2",
   "authors": [
-    "Richard Blake",
-    "Springload",
+    "Richard Blake | Springload",
     "Daniel Mendez"
   ],
   "description": "Event tracking module for Google Analytics",
@@ -12,10 +11,11 @@
     "Analytics",
     "Tracking",
     "Events",
-    "Google"
+    "Google",
+    "Universal Analytics"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/lodalo/Analytics.js.git",
+  "homepage": "https://github.com/springload/Analytics.js",
   "ignore": [
     "**/.*",
     "node_modules",
