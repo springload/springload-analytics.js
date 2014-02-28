@@ -1,27 +1,29 @@
-/**
- * Analytics
- * ------------------------------------------------------------------------
- * Usage in markup examples:
- * - Wrap a group of links with a data-analytics tag
- *  <div data-analytics> - will use the default category, action and the default label (href)
- *  to track any a tag that falls within that block
- *
- *  - Wrap a group of links and give them custom category,action, or label
- *  <div data-analytics='[Custom category]'> Will track as [Custom category], [Default action], [Default label]
- *  or define an action and label as well
- *  <div data-analytics='[Custom category]|[Custom action]|[Custom label]'>
- *  or specify just a custom label
- *  <div data-analytics='||[Custom label]'>
- *  or specify just a custom action
- *  <data data-analytics='|[Custom action]'>
- *
- * - Use in the same way on individual a tags if you want more detailed tracking e.g.
- * <a data-analytics='||Custom Label'> - Will track as [Default category], [Default action], [Custom label]
- *
- */
-var GA = (function () {
+var GAEvents = (function (window, document) {
 
     "use strict";
+
+    /**
+     * Polyfill for IE8 courtesy of the fine folks at Mozilla
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+     */
+    if (!Array.prototype.forEach) {
+
+        Array.prototype.forEach = function(fun) {
+
+            if (this === void 0 || this === null || typeof fun !== "function") {
+                throw new TypeError();
+            }
+
+            var t = Object(this);
+            var len = t.length >>> 0;
+            var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+            for (var i = 0; i < len; i++) {
+                if (i in t) {
+                    fun.call(thisArg, t[i], i, t);
+                }
+            }
+        };
+    }
 
     var GA = {
 
@@ -92,57 +94,153 @@ var GA = (function () {
 
             var self = this;
 
-            $.extend(true, self.options, options);
+            self.options = self.extend(self.options, options);
 
-            self.setupTrackables();
+            self.setupTrackables(self.options.default_trackable_attribute, self.options.default_trackable_event, self.options.default_trackable_element, self.options.default_label_attribute);
 
         },
 
-        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute) {
+        /**
+         * Deep extend object
+         * @param out
+         * @returns {*}
+         */
+        extend: function(out) {
 
-            var self = this;
+            out = out || {};
 
-            //setup default if needed
-            trackable_attribute = trackable_attribute || self.options.default_trackable_attribute;
-            trackable_event = trackable_event || self.options.default_trackable_event;
-            trackable_element = trackable_element || self.options.default_trackable_element;
-            label_attribute = label_attribute || self.options.default_label_attribute;
+            for (var i = 1; i < arguments.length; i++) {
 
-            // Get all the trackable elements
-            var $elems = $("[data-" + trackable_attribute + "] " + trackable_element + ", " + trackable_element + "[data-" + trackable_attribute + "]");
+                var obj = arguments[i];
 
-            $elems.each(function () {
-
-                var $elem = $(this),
-                    params = $elem.data(trackable_attribute),
-                    category = undefined,
-                    action = undefined,
-                    label = $elem.attr(label_attribute),
-                    value = undefined;
-
-                // Check for a category on a parent element
-                if (params === undefined) {
-                    params = $elem.parents("[data-" + trackable_attribute + "]").data(trackable_attribute);
+                if (!obj) {
+                    continue;
                 }
 
-                // Grab the values from the data attribute
-                params = params.split(self.options.default_separator);
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        if (typeof obj[key] === 'object') {
+                            this.extend(out[key], obj[key]);
+                        } else {
+                            out[key] = obj[key];
+                        }
+                    }
+                }
 
-                // Set the event tracking variables
-                category = params[0] !== undefined && params[0] !== '' ? params[0] : undefined;
-                action = params[1] !== undefined && params[1] !== '' ? params[1] : undefined;
-                label = params[2] !== undefined && params[2] !== '' ? params[2] : label;
-                value = params[3] !== undefined && params[3] !== '' ? params[3] : undefined;
+            }
 
-                // Register the event handler
-                $elem.on(trackable_event, function () {
+            return out;
 
-                    // Fire off the event
-                    self.event(category, action, label, value);
+        },
+
+        /**
+         * on event handler
+         * @param element
+         * @param name
+         * @param callback
+         */
+        on:  function (element, name, callback) {
+            if ("addEventListener" in window) {
+                element.addEventListener(name, callback, false);
+            } else if ("attachEvent" in window){
+                element.attachEvent("on" + name, function anon() {
+                    callback.call(element);
+                });
+            } else {
+                element["on" + name] = function anon() {
+                    callback.call(element);
+                };
+            }
+        },
+
+        /**
+         * Select any elements that match the selectors
+         * @param trackable_attribute
+         * @param trackable_element
+         * @returns {NodeList}
+         */
+        selectElements: function(trackable_attribute, trackable_element) {
+
+            return document.querySelectorAll("[data-" + trackable_attribute + "] " + trackable_element + ", " + trackable_element + "[data-" + trackable_attribute + "]");;
+
+        },
+
+        /**
+         * Find the closest parent element with an trackable attribute set on it and return the value of that attribute
+         * @param element
+         * @param trackable_attribute
+         * @returns {string}
+         */
+        getParentElementTrackingData: function(element, trackable_attribute) {
+
+            var parent = element.parentNode,
+                tracking_data = "",
+                parent_tracking_data;
+
+            while (parent !== null) {
+                var current_parent = parent;
+                if (current_parent.hasAttribute("data-" + trackable_attribute)) {
+                    parent_tracking_data = current_parent.getAttribute("data-" + trackable_attribute);
+                    if (parent_tracking_data !== null) {
+                        tracking_data = parent_tracking_data;
+                    }
+                    parent = null;
+                } else {
+                    parent = current_parent.parentNode;
+                }
+            }
+
+            return tracking_data;
+
+        },
+
+        /**
+         * Define the trackable elements and set the event handlers on them
+         * @param trackable_attribute
+         * @param trackable_event
+         * @param trackable_element
+         * @param label_attribute
+         */
+        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute) {
+
+            // Only supporting modern browsers for selection
+            if (document.querySelectorAll) {
+
+                var self = this,
+                    elements = self.selectElements(trackable_attribute, trackable_element);
+
+                Array.prototype.forEach.call(elements, function(el) {
+
+                    var params = el.getAttribute("data-" + trackable_attribute),
+                        category = undefined,
+                        action = undefined,
+                        label = el.getAttribute(label_attribute),
+                        value = undefined;
+
+                    // Check for a category on a parent element
+                    if (params === null) {
+                        params = self.getParentElementTrackingData(el, trackable_attribute);
+                    }
+
+                    // Grab the values from the data attribute
+                    params = params.split(self.options.default_separator);
+
+                    // Set the event tracking variables
+                    category = params[0] !== undefined && params[0] !== '' ? params[0] : undefined;
+                    action = params[1] !== undefined && params[1] !== '' ? params[1] : undefined;
+                    label = params[2] !== undefined && params[2] !== '' ? params[2] : label;
+                    value = params[3] !== undefined && params[3] !== '' ? params[3] : undefined;
+
+                    self.on(el, trackable_event, function() {
+
+                        // Fire off the event
+                        self.event(category, action, label, value);
+
+                    });
 
                 });
 
-            });
+            }
 
         }
 
@@ -189,4 +287,4 @@ var GA = (function () {
 
     };
 
-})();
+})(window, document);
