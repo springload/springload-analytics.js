@@ -4,7 +4,6 @@ Analytics.js
 Google analytics event tracking module with support for both classic and universal analytics code.
 
 ### Requirements
-Requires jQuery to be loaded in the page.
 Requires the async version of the Google Analytics to be loaded in the page. See the tracking code quickstart for more infomation:
 https://developers.google.com/analytics/devguides/collection/gajs/
 
@@ -27,7 +26,7 @@ Just add a data-analytics attribute to a container containing links you want to 
 </div>
 ```
 
-Initialise GA once jQuery is ready.
+Initialise GA once the document is ready. JQuery example.
 
 ```javascript
 $(document).ready(function() {
@@ -37,7 +36,7 @@ $(document).ready(function() {
 
 ### Override default options
 
-You can override default options by passing an object to the init method
+You can override default options by passing an object to the init method. JQuery example below
 
 ```javascript
 $(document).ready(function() {

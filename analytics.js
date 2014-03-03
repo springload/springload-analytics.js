@@ -1,4 +1,14 @@
-var GAEvents = (function (window, document) {
+/**
+ * Analytics.js
+ * http://springload.co.nz/
+ *
+ * Copyright 2014, Springload
+ * Released under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Date: Mon 3 March, 2014
+ */
+var GA = (function (window, document) {
 
     "use strict";
 
