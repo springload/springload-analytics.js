@@ -195,10 +195,9 @@ var GA = (function (window, document) {
 
                 var self = this,
                     elements = self.selectElements(trackable_attribute, trackable_element),
-                    elements_length = elements.length,
                     i = 0;
 
-                for (i; i < elements_length; i++) {
+                for (i; i < elements.length; i++) {
 
                     (function(el) {
 
