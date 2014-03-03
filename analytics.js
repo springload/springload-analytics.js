@@ -12,29 +12,6 @@ var GA = (function (window, document) {
 
     "use strict";
 
-    /**
-     * Polyfill for IE8 courtesy of the fine folks at Mozilla
-     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-     */
-    if (!Array.prototype.forEach) {
-
-        Array.prototype.forEach = function(fun) {
-
-            if (this === void 0 || this === null || typeof fun !== "function") {
-                throw new TypeError();
-            }
-
-            var t = Object(this);
-            var len = t.length >>> 0;
-            var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
-            for (var i = 0; i < len; i++) {
-                if (i in t) {
-                    fun.call(thisArg, t[i], i, t);
-                }
-            }
-        };
-    }
-
     var GA = {
 
         // Modifiable options
@@ -217,38 +194,45 @@ var GA = (function (window, document) {
             if (document.querySelectorAll) {
 
                 var self = this,
-                    elements = self.selectElements(trackable_attribute, trackable_element);
+                    elements = self.selectElements(trackable_attribute, trackable_element),
+                    elements_length = elements.length,
+                    i = 0;
 
-                Array.prototype.forEach.call(elements, function(el) {
+                for (i; i < elements_length; i++) {
 
-                    var params = el.getAttribute("data-" + trackable_attribute),
-                        category = undefined,
-                        action = undefined,
-                        label = el.getAttribute(label_attribute),
-                        value = undefined;
+                    (function(el) {
 
-                    // Check for a category on a parent element
-                    if (params === null) {
-                        params = self.getParentElementTrackingData(el, trackable_attribute);
-                    }
+                        var params = el.getAttribute("data-" + trackable_attribute),
+                            category = null,
+                            action = null,
+                            label = el.getAttribute(label_attribute),
+                            value = null;
 
-                    // Grab the values from the data attribute
-                    params = params.split(self.options.default_separator);
+                        // Check for a category on a parent element
+                        if (params === null) {
+                            params = self.getParentElementTrackingData(el, trackable_attribute);
+                        }
 
-                    // Set the event tracking variables
-                    category = params[0] !== undefined && params[0] !== '' ? params[0] : undefined;
-                    action = params[1] !== undefined && params[1] !== '' ? params[1] : undefined;
-                    label = params[2] !== undefined && params[2] !== '' ? params[2] : label;
-                    value = params[3] !== undefined && params[3] !== '' ? params[3] : undefined;
+                        // Grab the values from the data attribute
+                        params = params.split(self.options.default_separator);
 
-                    self.on(el, trackable_event, function() {
+                        // Set the event tracking variables
+                        category = params[0] !== undefined && params[0] !== '' ? params[0] : undefined;
+                        action = params[1] !== undefined && params[1] !== '' ? params[1] : undefined;
+                        label = params[2] !== undefined && params[2] !== '' ? params[2] : label;
+                        value = params[3] !== undefined && params[3] !== '' ? params[3] : undefined;
 
-                        // Fire off the event
-                        self.event(category, action, label, value);
+                        self.on(el, trackable_event, function() {
 
-                    });
+                            // Fire off the event
+                            self.event(category, action, label, value);
 
-                });
+                        });
+
+                    })(elements[i]);
+
+                }
+
 
             }
 
