@@ -148,7 +148,7 @@ var GA = (function (window, document) {
          */
         selectElements: function(trackable_attribute, trackable_element) {
 
-            return document.querySelectorAll("[data-" + trackable_attribute + "] " + trackable_element + ", " + trackable_element + "[data-" + trackable_attribute + "]");;
+            return document.querySelectorAll("[data-" + trackable_attribute + "] " + trackable_element + ", " + trackable_element + "[data-" + trackable_attribute + "]");
 
         },
 
