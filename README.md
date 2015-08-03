@@ -8,9 +8,14 @@ Requires the async version of the Google Analytics to be loaded in the page. See
 https://developers.google.com/analytics/devguides/collection/gajs/
 
 ### Install
+
+```sh
+npm install --save springload-analytics.js
+# or
 bower install springload-analytics.js
-or
+# or
 git clone https://github.com/springload/Analytics.js analytics
+```
 
 ### Basic setup
 
