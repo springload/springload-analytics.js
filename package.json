@@ -1,0 +1,24 @@
+{
+  "name": "springload-analytics.js",
+  "version": "1.0.0",
+  "description": "Google analytics event tracking module with support for both classic and universal analytics code.",
+  "main": "analytics.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:springload/Analytics.js.git"
+  },
+  "keywords": [
+    "analytics",
+    "google",
+    "analytics",
+    "universal",
+    "analytics",
+    "ga",
+    "springload"
+  ],
+  "author": "Springload",
+  "license": "MIT"
+}
