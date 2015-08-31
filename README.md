@@ -31,12 +31,22 @@ Just add a data-analytics attribute to a container containing links you want to 
 </div>
 ```
 
-Initialise GA once the document is ready. JQuery example.
+Initialise GA once the document is ready.
+
+jQuery example:
 
 ```javascript
 $(document).ready(function() {
     GA.init();
 });
+```
+
+Vanilla ES6 example:
+
+```javascript
+import GA from 'springload-analytics.js';
+
+GA.init();
 ```
 
 ### Override default options
@@ -65,7 +75,6 @@ $(document).ready(function() {
 
 });
 ```
-
 
 ### Custom tracking
 
