@@ -37,6 +37,8 @@
             default_trackable_element: "a",
             // The default label attribute
             default_label_attribute: "href",
+            // The node's text content is used as label
+            default_label_is_text_content: false,
             // The default separator to use within the analytics attribute
             default_separator: "|",
             // Available default categories
@@ -74,7 +76,7 @@
         init: function (options) {
             var self = this;
             self.options = self.extend(self.options, options);
-            self.setupTrackables(self.options.default_trackable_attribute, self.options.default_trackable_event, self.options.default_trackable_element, self.options.default_label_attribute);
+            self.setupTrackables(self.options.default_trackable_attribute, self.options.default_trackable_event, self.options.default_trackable_element, self.options.default_label_attribute, self.options.default_label_is_text_content);
         },
         /**
          * Deep extend object
@@ -158,8 +160,9 @@
          * @param trackable_event
          * @param trackable_element
          * @param label_attribute
+         * @param label_is_text_content
          */
-        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute) {
+        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute, label_is_text_content) {
             // Only supporting modern browsers for selection
             if (document.querySelectorAll) {
                 var self = this,
@@ -170,12 +173,13 @@
                         var params = el.getAttribute("data-" + trackable_attribute),
                             category = null,
                             action = null,
-                            label = el.getAttribute(label_attribute),
+                            label = (label_is_text_content) ? el.textContent : el.getAttribute(label_attribute),
                             value = null;
                         // Check for a category on a parent element
                         if (params === null) {
                             params = self.getParentElementTrackingData(el, trackable_attribute);
                         }
+
                         // Grab the values from the data attribute
                         params = params.split(self.options.default_separator);
                         // Set the event tracking variables
@@ -217,9 +221,10 @@
          * @param trackable_event event type. e.g. mouseenter
          * @param trackable_element - e.g. span
          * @param label_attribute - where the default label is ready from. e.g. data-label
+         * @param label_is_text_content - whether the node's text content is used as label
          */
-        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute) {
-            GA.setupTrackables(trackable_attribute, trackable_event, trackable_element, label_attribute);
+        setupTrackables: function (trackable_attribute, trackable_event, trackable_element, label_attribute, label_is_text_content) {
+            GA.setupTrackables(trackable_attribute, trackable_event, trackable_element, label_attribute, label_is_text_content);
         },
         // Categories
         cat: GA.options.categories,

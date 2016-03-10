@@ -63,6 +63,7 @@ $(document).ready(function() {
         default_trackable_attribute: "aly",
         default_trackable_event: "mouseenter",
         default_trackable_element: "span",
+        default_label_is_text_content: true
         categories: {
             buttons: "Buttons"
         },
@@ -141,6 +142,7 @@ You can set up additional/alternative trackable elements on the fly by calling s
      * @param trackable_event event type. e.g. mouseenter
      * @param trackable_element - e.g. span
      * @param label_attribute - where the default label is ready from. e.g. data-label
+     * @param label_is_text_content - whether the node's text content is used as label
      */
     GA.setupTrackables("analytics", "mouseenter", "span", "data-label");
 ```
