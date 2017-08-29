@@ -1,4 +1,4 @@
-# Analytics.js  [![npm](https://img.shields.io/npm/v/springload-analytics.js.svg?style=flat-square)](https://www.npmjs.com/package/springload-analytics.js)
+# springload-analytics.js  [![npm](https://img.shields.io/npm/v/springload-analytics.js.svg?style=flat-square)](https://www.npmjs.com/package/springload-analytics.js)
 
 > Google Analytics event tracking module with support for both classic and universal analytics code.
 
