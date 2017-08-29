@@ -11,13 +11,9 @@
     "url": "git@github.com:springload/springload-analytics.js.git"
   },
   "keywords": [
-    "analytics",
     "google",
     "analytics",
-    "universal",
-    "analytics",
-    "ga",
-    "springload"
+    "ga"
   ],
   "author": "Springload",
   "license": "MIT"
