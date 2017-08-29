@@ -1,7 +1,7 @@
 {
   "name": "springload-analytics.js",
   "version": "2.0.1",
-  "description": "Google analytics event tracking module with support for both classic and universal analytics code.",
+  "description": "Google Analytics event tracking module with support for both classic and universal analytics code.",
   "main": "analytics.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
