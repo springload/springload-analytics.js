@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:springload/Analytics.js.git"
+    "url": "git@github.com:springload/springload-analytics.js.git"
   },
   "keywords": [
     "analytics",
